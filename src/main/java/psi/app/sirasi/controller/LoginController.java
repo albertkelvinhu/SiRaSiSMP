@@ -1,8 +1,11 @@
 package psi.app.sirasi.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import psi.app.sirasi.model.Role;
 import psi.app.sirasi.model.User;
 import psi.app.sirasi.service.UserService;
 
@@ -32,6 +36,9 @@ public class LoginController {
 	public ModelAndView registration(){
 		ModelAndView modelAndView = new ModelAndView();
 		User user = new User();
+		List <Role> roleList = userService.findAllRoles();
+		
+		modelAndView.addObject("roles",roleList);
 		modelAndView.addObject("user", user);
 		modelAndView.setViewName("registration");
 		return modelAndView;
@@ -47,27 +54,30 @@ public class LoginController {
 							"There is already a user registered with the email provided");
 		}
 		if (bindingResult.hasErrors()) {
+			modelAndView.addObject("roles",userService.findAllRoles());
 			modelAndView.setViewName("registration");
 		} else {
 			userService.saveUser(user);
 			modelAndView.addObject("successMessage", "User has been registered successfully");
+			
 			modelAndView.addObject("user", new User());
+			modelAndView.addObject("roles",userService.findAllRoles());
 			modelAndView.setViewName("registration");
 			
 		}
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/admin/home", method = RequestMethod.GET)
-	public ModelAndView home(){
+	@RequestMapping(value="/index", method = RequestMethod.GET)
+	public ModelAndView homeAdmin(){
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
-		modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
-		modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
-		modelAndView.setViewName("admin/home");
+//		modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
+//		modelAndView.addObject("adminMessage","Content Available Only for Users");
+		System.out.println();
+		modelAndView.setViewName("/dashboard/index");
 		return modelAndView;
 	}
-	
 
 }

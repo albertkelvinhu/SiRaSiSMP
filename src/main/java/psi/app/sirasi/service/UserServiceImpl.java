@@ -2,6 +2,7 @@ package psi.app.sirasi.service;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -40,10 +41,18 @@ public class UserServiceImpl implements UserService{
 	public void saveUserSiswa(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setActive(1);
-        Role userRole = roleRepository.findByRole("SISWA");
-        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+//        Role userRole = roleRepository.findByRole("SISWA");
+//        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
 		userRepository.save(user);
 	}
+
+	@Override
+	public List<Role> findAllRoles() {
+		// TODO Auto-generated method stub
+		return roleRepository.findAll();
+	}
+
+
 	
 	
 

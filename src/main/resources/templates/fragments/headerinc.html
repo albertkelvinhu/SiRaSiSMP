@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head lang="en" th:fragment="head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/bootstrap-3.3.7/css/bootstrap.min.css" th:href="@{/bootstrap-3.3.7/css/bootstrap.min.css}"  media="screen" />
+    <link rel="stylesheet" href="/bootstrap-3.3.7/css/bootstrap.css" th:href="@{/bootstrap-3.3.7/css/bootstrap.css}"  media="screen" />
+    
+</head>
+
+<body>
+<div th:fragment="script"> 
+	<script th:src="@{/jquery/jquery-3.2.1.min.js}" src="/jquery/jquery-3.2.1.min.js"></script>    
+	<script th:src="@{/bootstrap-3.3.7/js/bootstrap.min.js}" src="/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+	<script th:src="@{/js/getrequest.js}" src="/js/getrequest.js"></script>
+</div>
+</body>
+
+</html>
